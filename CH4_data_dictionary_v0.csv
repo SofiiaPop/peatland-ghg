@@ -1,0 +1,40 @@
+sheet,column,description,unit,source
+Dataset,station_id,Metagenome station code (Y001-Y199); one pooled soil sample per station = one row,text,Station table
+Dataset,site,Published site name (Bahram 2022 Suppl. Data 1); Y092/Y093 assigned by land use. GROUPING VARIABLE for leave-site-out validation,text,Bahram 2022
+Dataset,site_label_station_table,Site label in the station table; differs from the published name for 14 stations,text,Station table
+Dataset,"latitude, longitude",Coordinates,degrees,Station table
+Dataset,"treatment, land_use",Site type and land use,text,Station table
+Dataset,CH4_ugC_m2_h,Mean CH4 flux of the station; negative = uptake,ug CH4-C m-2 h-1 (to confirm),Station table (global peatland survey; Parn et al. 2025)
+Dataset,CH4_log10_plus100,TARGET (PROVISIONAL). log10(CH4_ugC_m2_h + 100); the constant 100 handles zero and negative fluxes (lowest flux about -65),-,derived
+Dataset,pH ... soil_temp_20cm_C (16 columns),"Environmental predictors: pH, von_post_grade, organic_matter_frac, soil_moisture_vwc, P/K/Ca/Mg_mg_kg (unit to confirm), nitrate_mg_kg, ammonium_mg_kg, total_N_pct, total_C_pct, CN_ratio, water_table_cm (negative = below surface), soil_temp_10cm_C, soil_temp_20cm_C",see name,Station table
+Dataset,moisture_above_1,True for stations with volumetric water content > 1 (physically impossible),bool,derived
+Dataset,kaiju_total_reads,All sequencing reads in the station's Kaiju profile,reads,Kaiju files
+Dataset,kaiju_genus_assigned_reads,Reads assigned to any genus (all genera). Divide genus_ counts by this to get relative abundance,reads,Kaiju files
+Dataset,low_depth_flag,"True for stations with < 100,000 reads. Exclude in the main analysis; include in a sensitivity check",bool,derived
+Dataset,methanogen_share_pct,"Share of all genus-assigned reads belonging to methanogens (archaea of the methanogenic orders, all genera found)",%,derived from Kaiju files
+Dataset,methanotroph_share_pct,"Share of all genus-assigned reads belonging to known methane-oxidising genera (list in Genus_info, CH4_group)",%,derived from Kaiju files
+Dataset,genus_<name>,Read counts of the common genera (mean relative abundance >= 0.1%) plus all methanogen and methanotroph genera with mean relative abundance >= 0.01%. See Genus_info,reads,Kaiju files
+Genus_info,column,Name of the genus column in the Dataset sheet,text,
+Genus_info,"genus, domain, phylum, lineage",Genus name and its taxonomy (domain;phylum;class;order;family;genus),text,Kaiju files
+Genus_info,CH4_group,"methanogen (produces CH4), methanotroph (consumes CH4) or empty",text,derived
+Genus_info,in_common_set,True if the genus has a mean relative abundance >= 0.1% (kept regardless of CH4 group),bool,derived
+Genus_info,mean_rel_abundance_pct,Mean relative abundance across stations without low_depth_flag: genus reads / all genus-assigned reads x 100,%,derived
+Genus_info,prevalence_pct,Share of stations without low_depth_flag where the genus has at least 1 read,%,derived
+Genus_info,negative_control_rel_abundance_pct,"Relative abundance in the negative control (buffer only, no soil)",%,derived
+Genus_info,negative_control_to_sample_ratio,Negative control value divided by mean_rel_abundance_pct,-,derived
+Abbreviation,CH4,methane,,
+Abbreviation,ugC_m2_h,micrograms of carbon per square metre per hour,,
+Abbreviation,log10,logarithm base 10,,
+Abbreviation,pct,percent,,
+Abbreviation,frac,fraction (0-1),,
+Abbreviation,mg_kg,milligrams per kilogram of dry soil,,
+Abbreviation,vwc,volumetric water content (m3 water per m3 soil),,
+Abbreviation,CN_ratio,carbon-to-nitrogen ratio,,
+Abbreviation,cm,centimetres,,
+Abbreviation,_C (in soil_temp),degrees Celsius,,
+Abbreviation,kaiju,software that assigns DNA reads to taxa,,
+Abbreviation,rel_abundance,relative abundance: share of reads belonging to one taxon,,
+Abbreviation,von_post_grade,"von Post scale of peat decomposition (1 = fresh, 10 = fully decomposed)",,
+Abbreviation,CLR,centred log-ratio transform for compositional data,,
+Abbreviation,methanogen,microbe (archaea) that produces CH4 in the absence of oxygen,,
+Abbreviation,methanotroph,microbe that consumes (oxidises) CH4,,
